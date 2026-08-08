@@ -1,0 +1,33 @@
+name: Build Turnip-MV-F6
+
+on:
+  workflow_dispatch:
+    inputs:
+      mesa_ref:
+        description: "Mesa tag, branch or commit"
+        required: true
+        default: "mesa-26.1.4"
+      build_name:
+        description: "Driver name shown in Winlator"
+        required: true
+        default: "Turnip MV F6"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build for POCO F6 (Adreno 735)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Placeholder
+        run: |
+          echo "Build workflow placeholder."
+          echo "Mesa ref: ${{ inputs.mesa_ref }}"
+          echo "Build name: ${{ inputs.build_name }}"
+          echo "Ready for full implementation."
