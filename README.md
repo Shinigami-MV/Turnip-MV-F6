@@ -30,11 +30,11 @@ Provide high-quality, regularly updated Turnip drivers specifically tuned for:
 
 ## Status
 
-**Current stage:** v1.0 Baseline ready to build
+**Current stage:** v1.0 Baseline tested on POCO F6
 
 | Version          | Focus                              | Status     |
 |------------------|------------------------------------|------------|
-| **Baseline**     | Clean Mesa build + packaging       | Ready      |
+| **Baseline**     | Clean Mesa build + packaging       | Tested     |
 | F6-R1            | Stability improvements             | Planned    |
 | F6-R2            | Performance patches (Adreno 735)   | Planned    |
 | F6-R3            | Game-specific optimizations        | Future     |
@@ -52,16 +52,20 @@ Provide high-quality, regularly updated Turnip drivers specifically tuned for:
 5. Wait for the build to finish.
 6. Download the artifact **Turnip-MV-F6-Baseline**.
 
+> **Important:** The artifact is a ZIP. Extract it first. Inside you will find the real driver ZIP (`Turnip-MV-F6-Baseline.zip`) that you import into Ludashi.
+
 ---
 
 ## How to use (Winlator Ludashi)
 
-1. Download the latest `.zip` from [Releases](https://github.com/Shinigami-MV/Turnip-MV-F6/releases) or from the Actions artifact.
-2. Open **Winlator Ludashi**.
-3. Go to **Driver Manager** / **AdrenoTools**.
-4. Import the downloaded `.zip`.
-5. Select the driver **Turnip MV F6 Baseline** (or the name shown in the package).
-6. Always keep a known-good driver as backup.
+1. Download the artifact from Actions (or a Release if available).
+2. **Extract** the downloaded artifact ZIP.
+3. Inside you will find the installable driver ZIP (e.g. `Turnip-MV-F6-Baseline.zip`).
+4. Open **Winlator Ludashi**.
+5. Go to **Driver Manager** / **AdrenoTools**.
+6. Import that inner driver ZIP.
+7. Select the driver **Turnip MV F6 Baseline** (or the name shown in the package).
+8. Always keep a known-good driver as backup.
 
 ---
 
