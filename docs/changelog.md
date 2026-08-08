@@ -2,15 +2,22 @@
 
 ## v1.1 Stability (F6-R1)
 
+**Status:** Experimental / in testing — safe to use, keep a backup driver.
+
 - Focus: **stability on POCO F6 (Adreno 735)** with Winlator Ludashi
 - Packaging renamed to **Turnip MV F6-R1 Stability**
 - Artifact name: `Turnip-MV-F6-R1-Stability`
 - Added in-package `README-F6.txt` with quick install notes
 - Expanded recommended settings for Adreno 735 / Ludashi
-- Still based on clean Mesa (default `mesa-26.1.4`) — A735 is upstream-supported
-- No aggressive A710/A720 or A8xx hacks (those target other GPUs)
+- Based on clean Mesa (default `mesa-26.1.4`) — A735 is upstream-supported
+- No aggressive A710/A720 or A8xx hacks
 
-Goal of this revision: more reliable day-to-day use on the F6 after the Baseline validation.
+### Device test notes
+
+- POCO F6 (Adreno 735)
+- Mesa 26.1.4 / DXVK 2.0-async
+- Sample game: SRK Peach Ball
+- ~60 FPS, ~40 °C over several minutes, no issues observed in that test
 
 ## v1.0 Baseline
 
