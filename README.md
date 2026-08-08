@@ -30,25 +30,37 @@ Provide high-quality, regularly updated Turnip drivers specifically tuned for:
 
 ## Status
 
-**Current stage:** Project initialization  
-First optimized builds coming soon.
+**Current stage:** v1.0 Baseline ready to build
 
 | Version          | Focus                              | Status     |
 |------------------|------------------------------------|------------|
-| Baseline         | Clean Mesa build + packaging       | Planned    |
+| **Baseline**     | Clean Mesa build + packaging       | Ready      |
 | F6-R1            | Stability improvements             | Planned    |
 | F6-R2            | Performance patches (Adreno 735)   | Planned    |
 | F6-R3            | Game-specific optimizations        | Future     |
 
 ---
 
+## How to build (GitHub Actions)
+
+1. Open the **Actions** tab.
+2. Select **Build Turnip-MV-F6**.
+3. Click **Run workflow**.
+4. (Optional) Change:
+   - `mesa_ref` → Mesa version/tag (default: `mesa-26.1.4`)
+   - `build_name` → Name shown in Winlator
+5. Wait for the build to finish.
+6. Download the artifact **Turnip-MV-F6-Baseline**.
+
+---
+
 ## How to use (Winlator Ludashi)
 
-1. Download the latest release from the [Releases](https://github.com/Shinigami-MV/Turnip-MV-F6/releases) page.
+1. Download the latest `.zip` from [Releases](https://github.com/Shinigami-MV/Turnip-MV-F6/releases) or from the Actions artifact.
 2. Open **Winlator Ludashi**.
 3. Go to **Driver Manager** / **AdrenoTools**.
 4. Import the downloaded `.zip`.
-5. Select the driver **Turnip MV F6** (or the name shown in the package).
+5. Select the driver **Turnip MV F6 Baseline** (or the name shown in the package).
 6. Always keep a known-good driver as backup.
 
 ---
@@ -82,16 +94,19 @@ When comparing drivers, keep everything identical:
 
 ---
 
-## Project Structure (planned)
+## Project Structure
 
 ```text
 Turnip-MV-F6/
 ├── .github/workflows/     # Automated builds
 ├── patches/               # Adreno 735 specific patches
 ├── scripts/
-│   ├── build.sh
-│   └── package.sh
+│   ├── build.sh            # Android NDK cross-compile
+│   └── package.sh          # ZIP packaging for Ludashi
 ├── docs/
+│   ├── installation.md
+│   ├── recommended-settings.md
+│   └── changelog.md
 └── README.md
 ```
 
