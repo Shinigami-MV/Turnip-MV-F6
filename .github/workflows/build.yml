@@ -7,27 +7,158 @@ on:
         description: "Mesa tag, branch or commit"
         required: true
         default: "mesa-26.1.4"
+
       build_name:
-        description: "Driver name shown in Winlator"
+        description: "Driver name shown in Winlator Ludashi"
         required: true
-        default: "Turnip MV F6"
+        default: "Turnip MV F6 Baseline"
+
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/build.yml"
+      - "scripts/**"
+      - "patches/**"
 
 permissions:
   contents: read
 
 jobs:
   build:
-    name: Build for POCO F6 (Adreno 735)
+    name: Build F6 Baseline Android ARM64
     runs-on: ubuntu-24.04
     timeout-minutes: 120
 
     steps:
-      - name: Checkout
+      - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Placeholder
+      - name: Install host build tools
+        shell: bash
         run: |
-          echo "Build workflow placeholder."
-          echo "Mesa ref: ${{ inputs.mesa_ref }}"
-          echo "Build name: ${{ inputs.build_name }}"
-          echo "Ready for full implementation."
+          set -euxo pipefail
+
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            git \
+            python3-pip \
+            python3-setuptools \
+            python3-wheel \
+            ninja-build \
+            meson \
+            pkg-config \
+            ccache \
+            bison \
+            flex \
+            glslang-tools \
+            spirv-tools \
+            libexpat1-dev \
+            libzstd-dev \
+            zlib1g-dev \
+            libssl-dev \
+            zip
+
+          python3 -m pip install \
+            --user \
+            --upgrade \
+            meson \
+            mako \
+            pyyaml \
+            packaging
+
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install Android NDK
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+            --licenses >/dev/null || true
+
+          "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+            "ndk;28.2.13676358"
+
+          echo "ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/28.2.13676358" \
+            >> "$GITHUB_ENV"
+
+      - name: Clone Mesa
+        env:
+          MESA_REF: ${{ github.event.inputs.mesa_ref || 'mesa-26.1.4' }}
+        run: |
+          set -euo pipefail
+
+          git clone https://gitlab.freedesktop.org/mesa/mesa.git mesa
+
+          cd mesa
+
+          echo "Selected Mesa: ${MESA_REF}"
+
+          if [ -z "${MESA_REF}" ]; then
+            echo "ERROR: MESA_REF is empty"
+            exit 1
+          fi
+
+          git checkout "${MESA_REF}"
+
+          echo "Mesa commit:"
+          git rev-parse HEAD | tee ../mesa-commit.txt
+
+      - name: Apply optional patches
+        shell: bash
+        run: |
+          set -euxo pipefail
+          shopt -s nullglob
+
+          patches=(patches/*.patch)
+
+          if [ ${#patches[@]} -gt 0 ]; then
+            for patch in "${patches[@]}"; do
+              echo "Applying ${patch}"
+              git -C mesa apply "../${patch}"
+            done
+          else
+            echo "No custom patches. Building clean F6 Baseline."
+          fi
+
+      - name: Build Turnip for Android ARM64
+        shell: bash
+        env:
+          API_LEVEL: "34"
+          PLATFORM_SDK: "34"
+        run: |
+          set -euxo pipefail
+          chmod +x scripts/build.sh
+          scripts/build.sh
+
+      - name: Package F6 Baseline
+        shell: bash
+        env:
+          BUILD_NAME: ${{ github.event.inputs.build_name || 'Turnip MV F6 Baseline' }}
+          MESA_REF: ${{ github.event.inputs.mesa_ref || 'mesa-26.1.4' }}
+          RELEASE_NAME: Turnip-MV-F6-Baseline
+        run: |
+          set -euxo pipefail
+          chmod +x scripts/package.sh
+          scripts/package.sh
+
+      - name: Upload F6 Baseline artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Turnip-MV-F6-Baseline
+          path: output/*
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload logs if build fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Turnip-MV-F6-Baseline-build-logs
+          path: |
+            build-android-aarch64/meson-logs/*
+            mesa-commit.txt
+          if-no-files-found: ignore
+          retention-days: 7

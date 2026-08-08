@@ -1,0 +1,6 @@
+mesa/
+build-android-aarch64/
+staging/
+output/
+android-aarch64.ini
+mesa-commit.txt
