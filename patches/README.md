@@ -1,13 +1,16 @@
 # Patches for Turnip-MV-F6
 
-Place `.patch` files here.
+Place `.patch` files here. They are applied automatically during GitHub Actions builds.
 
-They will be applied automatically during the GitHub Actions build, in alphabetical order, on top of the selected Mesa ref.
+## Policy for this project
 
-## Guidelines
+- **Priority GPU:** Adreno 735 (POCO F6)
+- Prefer patches that improve **stability first**, then performance
+- Avoid broad hacks meant only for unsupported GPUs (e.g. experimental A710/A720-only workarounds) unless validated on F6
 
-- Prefer small, focused patches for Adreno 735 / Snapdragon 8s Gen 3.
-- Name files clearly, e.g. `0001-adreno735-gmem-tweak.patch`.
-- Document what each patch does in the commit message of the patch itself.
+## Current status
 
-For **v1.0 Baseline** there are no custom patches yet (clean Mesa build).
+- **v1.0 Baseline:** no source patches
+- **v1.1 Stability (F6-R1):** no source patches yet (A735 is upstream-supported). Focus is packaging + recommended settings for Ludashi on F6
+
+Future **F6-R2** may introduce carefully chosen Adreno 735 performance patches after testing.

@@ -11,7 +11,7 @@ on:
       build_name:
         description: "Driver name shown in Winlator Ludashi"
         required: true
-        default: "Turnip MV F6 Baseline"
+        default: "Turnip MV F6-R1 Stability"
 
   push:
     branches:
@@ -26,7 +26,7 @@ permissions:
 
 jobs:
   build:
-    name: Build F6 Baseline Android ARM64
+    name: Build F6-R1 Stability Android ARM64
     runs-on: ubuntu-24.04
     timeout-minutes: 120
 
@@ -120,7 +120,7 @@ jobs:
               git -C mesa apply "../${patch}"
             done
           else
-            echo "No custom patches. Building clean F6 Baseline."
+            echo "No custom source patches. Building F6-R1 Stability (clean Mesa + F6-focused packaging)."
           fi
 
       - name: Build Turnip for Android ARM64
@@ -133,21 +133,21 @@ jobs:
           chmod +x scripts/build.sh
           scripts/build.sh
 
-      - name: Package F6 Baseline
+      - name: Package F6-R1 Stability
         shell: bash
         env:
-          BUILD_NAME: ${{ github.event.inputs.build_name || 'Turnip MV F6 Baseline' }}
+          BUILD_NAME: ${{ github.event.inputs.build_name || 'Turnip MV F6-R1 Stability' }}
           MESA_REF: ${{ github.event.inputs.mesa_ref || 'mesa-26.1.4' }}
-          RELEASE_NAME: Turnip-MV-F6-Baseline
+          RELEASE_NAME: Turnip-MV-F6-R1-Stability
         run: |
           set -euxo pipefail
           chmod +x scripts/package.sh
           scripts/package.sh
 
-      - name: Upload F6 Baseline artifact
+      - name: Upload F6-R1 Stability artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Turnip-MV-F6-Baseline
+          name: Turnip-MV-F6-R1-Stability
           path: output/*
           if-no-files-found: error
           retention-days: 30
@@ -156,7 +156,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: Turnip-MV-F6-Baseline-build-logs
+          name: Turnip-MV-F6-R1-Stability-build-logs
           path: |
             build-android-aarch64/meson-logs/*
             mesa-commit.txt

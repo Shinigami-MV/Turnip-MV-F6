@@ -22,22 +22,22 @@ This project is **POCO F6 first**. Optimizations, testing and packaging are done
 Provide high-quality, regularly updated Turnip drivers specifically tuned for:
 
 - Winlator **Ludashi** (Bionic)
-- Better performance on Adreno 735
+- Better stability/performance on **Adreno 735**
 - Improved game compatibility
-- Clean and easy installation via AdrenoTools / Driver Manager
+- Clean installation via AdrenoTools / Driver Manager
 
 ---
 
 ## Status
 
-**Current stage:** v1.0 Baseline tested on POCO F6
+**Current stage:** v1.1 Stability (F6-R1)
 
-| Version          | Focus                              | Status     |
-|------------------|------------------------------------|------------|
-| **Baseline**     | Clean Mesa build + packaging       | Tested     |
-| F6-R1            | Stability improvements             | Planned    |
-| F6-R2            | Performance patches (Adreno 735)   | Planned    |
-| F6-R3            | Game-specific optimizations        | Future     |
+| Version              | Focus                              | Status     |
+|----------------------|------------------------------------|------------|
+| Baseline             | Clean Mesa build + packaging       | Tested     |
+| **F6-R1 Stability**  | F6-first stability packaging/docs  | Ready      |
+| F6-R2                | Performance patches (Adreno 735)   | Planned    |
+| F6-R3                | Game-specific optimizations        | Future     |
 
 ---
 
@@ -46,32 +46,37 @@ Provide high-quality, regularly updated Turnip drivers specifically tuned for:
 1. Open the **Actions** tab.
 2. Select **Build Turnip-MV-F6**.
 3. Click **Run workflow**.
-4. (Optional) Change:
-   - `mesa_ref` → Mesa version/tag (default: `mesa-26.1.4`)
-   - `build_name` → Name shown in Winlator
+4. Defaults:
+   - `mesa_ref` → `mesa-26.1.4`
+   - `build_name` → `Turnip MV F6-R1 Stability`
 5. Wait for the build to finish.
-6. Download the artifact **Turnip-MV-F6-Baseline**.
+6. Download the artifact **Turnip-MV-F6-R1-Stability**.
 
-> **Important:** The artifact is a ZIP. Extract it first. Inside you will find the real driver ZIP (`Turnip-MV-F6-Baseline.zip`) that you import into Ludashi.
+> **Important:** Extract the artifact ZIP first. Inside is the installable driver ZIP for Ludashi.
 
 ---
 
 ## How to use (Winlator Ludashi)
 
-1. Download the artifact from Actions (or a Release if available).
-2. **Extract** the downloaded artifact ZIP.
-3. Inside you will find the installable driver ZIP (e.g. `Turnip-MV-F6-Baseline.zip`).
-4. Open **Winlator Ludashi**.
-5. Go to **Driver Manager** / **AdrenoTools**.
-6. Import that inner driver ZIP.
-7. Select the driver **Turnip MV F6 Baseline** (or the name shown in the package).
-8. Always keep a known-good driver as backup.
+1. Download the Actions artifact (or a Release).
+2. **Extract** it.
+3. Import the inner ZIP (example: `Turnip-MV-F6-R1-Stability.zip`).
+4. In Ludashi → Driver Manager / AdrenoTools, select **Turnip MV F6-R1 Stability**.
+5. Keep a known-good driver as backup.
+
+### Quick stability tips for Adreno 735
+
+- If artifacts/hangs: try `TU_DEBUG=sysmem`
+- If swapchain/UI corruption: try `WRAPPER_BLIT=1`
+- Change one setting at a time
+
+More detail in [`docs/recommended-settings.md`](docs/recommended-settings.md).
 
 ---
 
 ## Recommended Testing Protocol
 
-When comparing drivers, keep everything identical:
+Keep everything identical when comparing:
 
 - Same game + save / scene
 - Same resolution
@@ -80,21 +85,15 @@ When comparing drivers, keep everything identical:
 - Same CPU affinity
 - Same FPS limit
 
-**Record:**
-- Average FPS / 1% lows
-- Temperature after 10 and 20 minutes
-- Visual artifacts
-- Crashes
-- Shader stutter
+**Record:** average FPS / 1% lows, temperature, artifacts, crashes, shader stutter.
 
 ---
 
 ## Safety
 
-- This driver does **not** replace the system Android GPU driver.
-- Install only through Winlator Ludashi / AdrenoTools.
-- Keep a working driver as backup.
-- If you experience crashes or severe graphical corruption, remove the experimental package.
+- Does **not** replace the Android system GPU driver
+- Install only through Ludashi / AdrenoTools
+- Keep a working backup driver
 
 ---
 
@@ -102,11 +101,11 @@ When comparing drivers, keep everything identical:
 
 ```text
 Turnip-MV-F6/
-├── .github/workflows/     # Automated builds
-├── patches/               # Adreno 735 specific patches
+├── .github/workflows/
+├── patches/
 ├── scripts/
-│   ├── build.sh            # Android NDK cross-compile
-│   └── package.sh          # ZIP packaging for Ludashi
+│   ├── build.sh
+│   └── package.sh
 ├── docs/
 │   ├── installation.md
 │   ├── recommended-settings.md
@@ -118,15 +117,15 @@ Turnip-MV-F6/
 
 ## Related Projects
 
-- [Turnip-MV](https://github.com/Shinigami-MV/Turnip-MV) → General experimental builds
-- [Turnip-MV-Frost-GlibC](https://github.com/Shinigami-MV/Turnip-MV-Frost-GlibC) → Version for Winlator Frost (GlibC)
+- [Turnip-MV](https://github.com/Shinigami-MV/Turnip-MV)
+- [Turnip-MV-Frost-GlibC](https://github.com/Shinigami-MV/Turnip-MV-Frost-GlibC)
 
 ---
 
 ## License
 
 - Project scripts & packaging: **MIT**
-- Mesa: retains its original upstream licenses
+- Mesa: upstream licenses
 
 ---
 
