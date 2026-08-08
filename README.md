@@ -51,9 +51,6 @@ Provide high-quality, regularly updated Turnip drivers specifically tuned for:
 
 - Device: POCO F6 (Adreno 735)
 - Mesa: 26.1.4
-- Sample title: SRK Peach Ball
-- ~60 FPS, ~40 °C for several minutes, no issues observed in that test
-- Safe to use for normal testing; keep a backup driver
 
 ---
 
