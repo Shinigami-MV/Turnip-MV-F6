@@ -31,7 +31,7 @@ cat > "$STAGING/meta.json" <<EOF
 {
   "schemaVersion": 1,
   "name": "$BUILD_NAME",
-  "description": "Turnip-MV-F6 R2 Performance for POCO F6 (Adreno 735 / Snapdragon 8s Gen 3). Built with -O3 + LTO for Winlator Ludashi.",
+  "description": "Turnip-MV-F6 R2 Performance for POCO F6 (Adreno 735 / Snapdragon 8s Gen 3). Built with -O3 for Winlator Ludashi.",
   "author": "Shinigami-MV",
   "packageVersion": "1.2",
   "vendor": "Mesa",
@@ -53,7 +53,7 @@ Device priority: POCO F6 (Adreno 735)
 
 Import this ZIP in Winlator Ludashi (Driver Manager / AdrenoTools).
 
-This is a PERFORMANCE build (-O3 + LTO).
+This is a PERFORMANCE build (-O3 + section GC).
 It is still experimental. Keep F6-R1 Stability as backup.
 
 Recommended starting point:

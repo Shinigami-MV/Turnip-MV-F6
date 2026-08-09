@@ -6,9 +6,9 @@
 
 - Focus: **more performance on POCO F6 (Adreno 735)**
 - Build changes:
-  - `-O3`
+  - explicit `-O3`
   - section GC (`-ffunction-sections` / `-fdata-sections` + `--gc-sections`)
-  - LTO enabled (`-Db_lto=true`)
+  - LTO **not used** (Mesa rejects `-Db_lto=true`)
 - Packaging renamed to **Turnip MV F6-R2 Performance**
 - Artifact name: `Turnip-MV-F6-R2-Performance`
 - Still based on clean Mesa (default `mesa-26.1.4`)

@@ -33,12 +33,13 @@ This project is **POCO F6 first**. Optimizations, testing and packaging are done
 |-------------------------|-------------------------------|---------------------------|
 | Baseline                | Clean Mesa build + packaging  | Tested                    |
 | F6-R1 Stability         | F6-first stability            | Experimental / tested     |
-| **F6-R2 Performance**   | -O3 + LTO performance build   | **Ready to build/test**   |
+| **F6-R2 Performance**   | `-O3` performance build       | **Ready to build/test**   |
 | F6-R3                   | Game-specific optimizations   | Future                    |
 
 ### What changed in F6-R2
 
-- More aggressive compiler options: `-O3`, section GC, **LTO**
+- Explicit `-O3` + section GC
+- LTO disabled (Mesa does not support it)
 - Packaging name: **Turnip MV F6-R2 Performance**
 - Still clean Mesa source (default `mesa-26.1.4`)
 - Compare against R1 on the same game/scene

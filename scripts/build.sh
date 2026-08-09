@@ -5,6 +5,7 @@ set -euo pipefail
 # Build Turnip (Mesa Freedreno) for Android ARM64
 # Target: POCO F6 (Adreno 735) + Winlator Ludashi
 # Focus: more aggressive release optimizations
+# Note: Mesa explicitly rejects -Db_lto=true
 
 : "${ANDROID_NDK_ROOT:?ANDROID_NDK_ROOT is not set}"
 
@@ -23,7 +24,7 @@ echo "========================================"
 echo " Turnip-MV-F6 v1.2 Performance (F6-R2)"
 echo " Device: POCO F6 (Adreno 735)"
 echo " Target: Winlator Ludashi"
-echo " Mode:   Performance"
+echo " Mode:   Performance (-O3)"
 echo "========================================"
 echo "Mesa source: $MESA_DIR"
 echo "Build dir:   $BUILD_DIR"
@@ -91,7 +92,6 @@ meson setup "$BUILD_DIR" "$MESA_DIR" \
     --buildtype=release \
     --strip \
     -Db_ndebug=true \
-    -Db_lto=true \
     -Dplatforms=android \
     -Dplatform-sdk-version="$PLATFORM_SDK" \
     -Dandroid-stub=true \
