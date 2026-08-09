@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Turnip-MV-F6 v1.0 Baseline
+# Turnip-MV-F6 v1.2 Performance (F6-R2)
 # Build Turnip (Mesa Freedreno) for Android ARM64
 # Target: POCO F6 (Adreno 735) + Winlator Ludashi
+# Focus: more aggressive release optimizations
 
 : "${ANDROID_NDK_ROOT:?ANDROID_NDK_ROOT is not set}"
 
@@ -19,9 +20,10 @@ TOOLCHAIN="$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin"
 CROSS_FILE="$ROOT_DIR/android-aarch64.ini"
 
 echo "========================================"
-echo " Turnip-MV-F6 v1.0 Baseline"
+echo " Turnip-MV-F6 v1.2 Performance (F6-R2)"
 echo " Device: POCO F6 (Adreno 735)"
 echo " Target: Winlator Ludashi"
+echo " Mode:   Performance"
 echo "========================================"
 echo "Mesa source: $MESA_DIR"
 echo "Build dir:   $BUILD_DIR"
@@ -59,6 +61,12 @@ ranlib = toolchain / 'llvm-ranlib'
 nm = toolchain / 'llvm-nm'
 pkg-config = '/bin/false'
 
+[built-in options]
+c_args = ['-O3', '-ffunction-sections', '-fdata-sections']
+cpp_args = ['-O3', '-ffunction-sections', '-fdata-sections']
+c_link_args = ['-Wl,--gc-sections']
+cpp_link_args = ['-Wl,--gc-sections']
+
 [host_machine]
 system = 'android'
 cpu_family = 'aarch64'
@@ -76,13 +84,14 @@ rm -rf "$BUILD_DIR"
 rm -rf "$STAGING_DIR"
 
 echo
-echo "Configuring Mesa (Freedreno / Turnip)..."
+echo "Configuring Mesa (Freedreno / Turnip) [Performance]..."
 
 meson setup "$BUILD_DIR" "$MESA_DIR" \
     --cross-file "$CROSS_FILE" \
     --buildtype=release \
     --strip \
     -Db_ndebug=true \
+    -Db_lto=true \
     -Dplatforms=android \
     -Dplatform-sdk-version="$PLATFORM_SDK" \
     -Dandroid-stub=true \
@@ -115,7 +124,7 @@ meson setup "$BUILD_DIR" "$MESA_DIR" \
     -Db_ndebug=true
 
 echo
-echo "Compiling Turnip..."
+echo "Compiling Turnip (Performance)..."
 
 meson compile \
     -C "$BUILD_DIR" \
@@ -151,13 +160,13 @@ cp "$LIB_PATH" "$STAGING_DIR/vulkan.ad07xx.so"
 
 echo
 echo "Produced driver:"
-file "$STAGING_DIR/vulkan.ad07xx.so"
+ls -lh "$STAGING_DIR/vulkan.ad07xx.so"
 
 sha256sum "$STAGING_DIR/vulkan.ad07xx.so" \
     | tee "$STAGING_DIR/SHA256SUMS.txt"
 
 echo
 echo "========================================"
-echo " Turnip-MV-F6 compilation completed"
+echo " Turnip-MV-F6 Performance build completed"
 echo " Driver: $STAGING_DIR/vulkan.ad07xx.so"
 echo "========================================"

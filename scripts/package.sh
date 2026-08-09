@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Turnip-MV-F6 v1.1 Stability (F6-R1)
+# Turnip-MV-F6 v1.2 Performance (F6-R2)
 # Packaging for AdrenoTools / Winlator Ludashi
 # Priority device: POCO F6 (Adreno 735)
 
@@ -9,9 +9,9 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 STAGING="$ROOT_DIR/staging"
 OUTPUT="$ROOT_DIR/output"
 
-BUILD_NAME="${BUILD_NAME:-Turnip MV F6-R1 Stability}"
+BUILD_NAME="${BUILD_NAME:-Turnip MV F6-R2 Performance}"
 MESA_REF="${MESA_REF:-mesa-26.1.4}"
-RELEASE_NAME="${RELEASE_NAME:-Turnip-MV-F6-R1-Stability}"
+RELEASE_NAME="${RELEASE_NAME:-Turnip-MV-F6-R2-Performance}"
 
 mkdir -p "$OUTPUT"
 
@@ -31,9 +31,9 @@ cat > "$STAGING/meta.json" <<EOF
 {
   "schemaVersion": 1,
   "name": "$BUILD_NAME",
-  "description": "Turnip-MV-F6 R1 Stability for POCO F6 (Adreno 735 / Snapdragon 8s Gen 3). Focused on stable gameplay in Winlator Ludashi.",
+  "description": "Turnip-MV-F6 R2 Performance for POCO F6 (Adreno 735 / Snapdragon 8s Gen 3). Built with -O3 + LTO for Winlator Ludashi.",
   "author": "Shinigami-MV",
-  "packageVersion": "1.1",
+  "packageVersion": "1.2",
   "vendor": "Mesa",
   "driverVersion": "$MESA_REF ($COMMIT)",
   "minApi": 28,
@@ -47,19 +47,22 @@ else
     echo "$COMMIT" > "$STAGING/mesa-commit.txt"
 fi
 
-# Small helper note for users
 cat > "$STAGING/README-F6.txt" <<EOF
-Turnip-MV-F6 R1 Stability
+Turnip-MV-F6 R2 Performance
 Device priority: POCO F6 (Adreno 735)
 
 Import this ZIP in Winlator Ludashi (Driver Manager / AdrenoTools).
 
-Recommended starting env (Ludashi container):
-- Keep DXVK 2.0-async if it works for your game
-- If you see artifacts or hangs, try TU_DEBUG=sysmem
-- If UI/swapchain looks corrupted, try WRAPPER_BLIT=1
+This is a PERFORMANCE build (-O3 + LTO).
+It is still experimental. Keep F6-R1 Stability as backup.
 
-See docs/recommended-settings.md in the repository for more details.
+Recommended starting point:
+- DXVK 2.0-async if it already works for your game
+- Present Mode: Fifo
+- If artifacts/hangs: TU_DEBUG=sysmem
+- If swapchain/UI corruption: WRAPPER_BLIT=1
+
+Compare FPS and temperature against F6-R1 Stability on the same scene.
 EOF
 
 cd "$STAGING"

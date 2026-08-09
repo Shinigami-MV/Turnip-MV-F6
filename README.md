@@ -25,90 +25,66 @@ This project is **POCO F6 first**. Optimizations, testing and packaging are done
 
 ---
 
-## Goal
-
-Provide high-quality, regularly updated Turnip drivers specifically tuned for:
-
-- Winlator **Ludashi** (Bionic)
-- Better stability/performance on **Adreno 735**
-- Improved game compatibility
-- Clean installation via AdrenoTools / Driver Manager
-
----
-
 ## Current version
 
-**v1.1 Stability (F6-R1)** — experimental, tested on device
+**v1.2 Performance (F6-R2)** — experimental performance build
 
-| Version              | Focus                              | Status                    |
-|----------------------|------------------------------------|---------------------------|
-| Baseline             | Clean Mesa build + packaging       | Tested                    |
-| **F6-R1 Stability**  | F6-first stability packaging/docs  | **Experimental / tested** |
-| F6-R2                | Performance patches (Adreno 735)   | Planned                   |
-| F6-R3                | Game-specific optimizations        | Future                    |
+| Version                 | Focus                         | Status                    |
+|-------------------------|-------------------------------|---------------------------|
+| Baseline                | Clean Mesa build + packaging  | Tested                    |
+| F6-R1 Stability         | F6-first stability            | Experimental / tested     |
+| **F6-R2 Performance**   | -O3 + LTO performance build   | **Ready to build/test**   |
+| F6-R3                   | Game-specific optimizations   | Future                    |
 
-### Test notes (F6-R1)
+### What changed in F6-R2
+
+- More aggressive compiler options: `-O3`, section GC, **LTO**
+- Packaging name: **Turnip MV F6-R2 Performance**
+- Still clean Mesa source (default `mesa-26.1.4`)
+- Compare against R1 on the same game/scene
+
+### Previous test notes (F6-R1)
 
 - Device: POCO F6 (Adreno 735)
-- Mesa: 26.1.4
+- Sample title: SRK Peach Ball
+- ~60 FPS, ~40 °C, no issues in that test
 
 ---
 
 ## Download
 
-Prefer **Releases** when available:
+- [Releases](https://github.com/Shinigami-MV/Turnip-MV-F6/releases) when published
+- Or **Actions** artifacts
 
-- [Releases](https://github.com/Shinigami-MV/Turnip-MV-F6/releases)
-
-You can also download build artifacts from **Actions**.
-
-> If you download from Actions: extract the artifact ZIP first. The installable driver is the ZIP inside.
+> Actions artifact ZIP must be extracted first. Import the inner driver ZIP into Ludashi.
 
 ---
 
 ## How to use (Winlator Ludashi)
 
-1. Download from **Releases** (recommended) or Actions.
-2. If it is an Actions artifact, **extract** it first.
-3. Import the driver ZIP (example: `Turnip-MV-F6-R1-Stability.zip`).
-4. In Ludashi → Driver Manager / AdrenoTools, select **Turnip MV F6-R1 Stability**.
-5. Keep a known-good driver as backup.
+1. Download from Releases or Actions.
+2. Extract if needed.
+3. Import the driver ZIP.
+4. Select **Turnip MV F6-R2 Performance** (or R1 if you want the safer baseline).
+5. Keep a backup driver.
 
-### Quick stability tips for Adreno 735
+### Quick tips
 
-- If artifacts/hangs: try `TU_DEBUG=sysmem`
-- If swapchain/UI corruption: try `WRAPPER_BLIT=1`
+- Artifacts/hangs → `TU_DEBUG=sysmem`
+- Swapchain/UI corruption → `WRAPPER_BLIT=1`
 - Change one setting at a time
 
-More detail in [`docs/recommended-settings.md`](docs/recommended-settings.md).
+More detail: [`docs/recommended-settings.md`](docs/recommended-settings.md)
 
 ---
 
 ## How to build (GitHub Actions)
 
-1. Open the **Actions** tab.
-2. Select **Build Turnip-MV-F6**.
-3. Click **Run workflow**.
-4. Defaults:
-   - `mesa_ref` → `mesa-26.1.4`
-   - `build_name` → `Turnip MV F6-R1 Stability`
-5. Wait for the build to finish.
-6. Download the artifact **Turnip-MV-F6-R1-Stability**.
-
----
-
-## Recommended Testing Protocol
-
-Keep everything identical when comparing:
-
-- Same game + save / scene
-- Same resolution
-- Same DXVK version
-- Same Box64 preset
-- Same CPU affinity
-- Same FPS limit
-
-**Record:** average FPS / 1% lows, temperature, artifacts, crashes, shader stutter.
+1. Open **Actions**
+2. Select **Build Turnip-MV-F6**
+3. **Run workflow**
+4. Defaults now point to **F6-R2 Performance**
+5. Download artifact **Turnip-MV-F6-R2-Performance**
 
 ---
 
@@ -116,26 +92,8 @@ Keep everything identical when comparing:
 
 - Does **not** replace the Android system GPU driver
 - Install only through Ludashi / AdrenoTools
-- Keep a working backup driver
-- Builds are experimental; tested so far without problems on POCO F6, but more titles still need validation
-
----
-
-## Project Structure
-
-```text
-Turnip-MV-F6/
-├── .github/workflows/
-├── patches/
-├── scripts/
-│   ├── build.sh
-│   └── package.sh
-├── docs/
-│   ├── installation.md
-│   ├── recommended-settings.md
-│   └── changelog.md
-└── README.md
-```
+- Performance builds can be less stable than R1 on some titles
+- Keep R1 as fallback
 
 ---
 

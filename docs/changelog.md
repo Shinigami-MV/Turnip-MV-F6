@@ -1,5 +1,21 @@
 # Changelog - Turnip-MV-F6
 
+## v1.2 Performance (F6-R2)
+
+**Status:** Experimental / performance testing
+
+- Focus: **more performance on POCO F6 (Adreno 735)**
+- Build changes:
+  - `-O3`
+  - section GC (`-ffunction-sections` / `-fdata-sections` + `--gc-sections`)
+  - LTO enabled (`-Db_lto=true`)
+- Packaging renamed to **Turnip MV F6-R2 Performance**
+- Artifact name: `Turnip-MV-F6-R2-Performance`
+- Still based on clean Mesa (default `mesa-26.1.4`)
+- Keep **F6-R1 Stability** as backup if a game becomes less stable
+
+Goal: measure real FPS/temp gains vs R1 on the same scenes.
+
 ## v1.1 Stability (F6-R1)
 
 **Status:** Experimental / in testing — safe to use, keep a backup driver.

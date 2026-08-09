@@ -3,43 +3,51 @@
 Priority device: **POCO F6** (Snapdragon 8s Gen 3 / **Adreno 735**)
 Frontend: **Winlator Ludashi**
 
-## Driver
+## Which driver to use
 
-Use **Turnip MV F6-R1 Stability** (or newer F6 builds from this repo).
+| Build | Use when |
+|-------|----------|
+| **F6-R1 Stability** | First choice for daily testing / fewer risks |
+| **F6-R2 Performance** | When you want to chase FPS and compare vs R1 |
 
-## Starting point (stability first)
+Always keep a known-good backup driver.
 
-1. Import the inner driver ZIP (extract the Actions artifact first).
-2. Select the F6 driver in Driver Manager / AdrenoTools.
-3. Start with a known-good game setup from Baseline testing.
+## Starting point
 
-### DXVK
+1. Import the inner driver ZIP (extract Actions artifact first if needed).
+2. Graphics Driver: **Wrapper**
+3. Select the F6 driver in Driver Manager / AdrenoTools.
+4. Present Mode: **Fifo**
+5. Start with DXVK **2.0-async** if it already works for the game.
 
-- Start with **DXVK 2.0-async** if your game already runs well with it.
-- If you see black artifacts, try disabling HUD / switching DXVK version.
+### Useful environment variables
 
-### Useful environment variables (Ludashi container)
-
-Try these only when needed:
+Try one at a time only when needed:
 
 | Variable | When to use |
 |----------|-------------|
-| `TU_DEBUG=sysmem` | Artifacts, hangs, or weird tiling issues |
-| `WRAPPER_BLIT=1` | Corrupted swapchain / UI presentation on Android wrapper path |
-| `TU_DEBUG=nolrz` | If still unstable after sysmem |
+| `TU_DEBUG=sysmem` | Artifacts, hangs, tiling glitches |
+| `WRAPPER_BLIT=1` | Corrupted swapchain / UI presentation |
+| `TU_DEBUG=nolrz` | Still unstable after sysmem |
 
-Do **not** stack many `TU_DEBUG` flags at once. Change one thing at a time.
+### Comparing R1 vs R2
 
-### General tips for Adreno 735
+Use the **same**:
 
-- Keep resolution moderate while validating stability.
-- Keep Box64 preset consistent when comparing drivers.
-- Record FPS, 1% lows, temperature and visual bugs.
+- game + scene
+- resolution
+- DXVK
+- Box64 preset
+- FPS limit
 
-## What v1.1 focuses on
+Record:
 
-- Clean upstream Mesa support for Adreno 735
-- Packaging and docs oriented to POCO F6 + Ludashi
-- Practical stability guidance instead of aggressive experimental hacks
+- average FPS / 1% lows
+- temperature after 5–10 minutes
+- artifacts / crashes
 
-Source-level performance patches can come later in F6-R2.
+## UE4 anime-style games
+
+Start with **F6-R1 Stability**.
+If stable, try **F6-R2 Performance** on the same scene.
+If glitches appear, prefer `TU_DEBUG=sysmem` before abandoning the build.
