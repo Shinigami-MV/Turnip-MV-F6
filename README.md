@@ -47,8 +47,8 @@ This project is **POCO F6 first**. Optimizations, testing and packaging are done
 ### Previous test notes (F6-R1)
 
 - Device: POCO F6 (Adreno 735)
-- Sample title: SRK Peach Ball
-- ~60 FPS, ~40 °C, no issues in that test
+- funciona en winlator ludashi, 
+- funciona en el emulador eden optimizado.
 
 ---
 
