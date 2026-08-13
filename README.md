@@ -96,14 +96,6 @@ More detail: [`docs/recommended-settings.md`](docs/recommended-settings.md)
 - Performance builds can be less stable than R1 on some titles
 - Keep R1 as fallback
 
----
-
-## Related Projects
-
-- [Turnip-MV](https://github.com/Shinigami-MV/Turnip-MV)
-- [Turnip-MV-Frost-GlibC](https://github.com/Shinigami-MV/Turnip-MV-Frost-GlibC)
-
----
 
 ## License
 
