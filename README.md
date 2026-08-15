@@ -60,6 +60,46 @@ This project is **POCO F6 first**. Optimizations, testing and packaging are done
 > Actions artifact ZIP must be extracted first. Import the inner driver ZIP into Ludashi.
 
 ---
+### Useful environment variables
+
+**Importante:** Cambia **una variable a la vez** y prueba. Algunas bajan rendimiento a cambio de más estabilidad.
+
+#### Shader Cache (recomendado activar siempre)
+Estas variables ayudan a que los shaders se guarden en disco y no se recompilen cada vez que abres el juego:
+
+| Variable | Valor recomendado | Descripción |
+|----------|-------------------|-------------|
+| `MESA_SHADER_CACHE_DISABLE` | `false` | Activa la caché de sombreadores en disco |
+| `MESA_SHADER_CACHE_MAX_SIZE` | `512MB` o `1G` | Tamaño máximo de la caché |
+| `MESA_SHADER_CACHE_DIR` | Ruta escribible (ej: dentro del contenedor) | Dónde se guarda la caché |
+
+> En la mayoría de contenedores de Winlator Ludashi estas variables ya vienen por defecto. Si notas que el juego recompila shaders siempre, verifica que estén activas.
+
+#### Estabilidad / Corrección de bugs (usar solo cuando haga falta)
+
+| Variable | Cuándo usarla |
+|----------|---------------|
+| `TU_DEBUG=sysmem` | Artifacts, hangs, glitches de tiling, pantalla negra o corrupción |
+| `TU_DEBUG=syncdraw` | Problemas de sincronización de memoria, corrupción intermitente o datos "stale" |
+| `TU_DEBUG=flushall` | Más agresivo que syncdraw. Úsalo si syncdraw no es suficiente (baja más el rendimiento) |
+| `TU_DEBUG=nolrz` | Si sigue inestable después de usar `sysmem` |
+| `WRAPPER_BLIT=1` | Corrupción del swapchain / UI / menús rotos |
+
+#### Otras variables útiles
+
+| Variable | Valor recomendado | Notas |
+|----------|-------------------|-------|
+| `TU_DEBUG=noconform` | (suele venir por defecto) | Desactiva checks estrictos de conformidad → mejor compatibilidad |
+| `MESA_VK_WSI_PRESENT_MODE` | `fifo` o `mailbox` | `fifo` es más estable, `mailbox` puede dar menos latencia |
+| `mesa_glthread` | `true` | Mueve trabajo de OpenGL a otro hilo (útil en algunos juegos) |
+
+#### Ejemplo de combinación para juegos problemáticos
+
+```bash
+MESA_SHADER_CACHE_DISABLE=false
+MESA_SHADER_CACHE_MAX_SIZE=512MB
+TU_DEBUG=sysmem,syncdraw
+WRAPPER_BLIT=1
 
 ## How to use (Winlator Ludashi)
 
